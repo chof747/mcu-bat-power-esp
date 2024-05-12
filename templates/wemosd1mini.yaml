@@ -1,0 +1,10 @@
+esphome:
+  name: ${deviceName}
+  platform: ESP8266
+  board: d1_mini
+  build_path: devices/${deviceName}
+
+
+packages: 
+  device_base: !include base.yaml
+  webserver: !include packages/webserver.yaml

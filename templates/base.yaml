@@ -1,0 +1,69 @@
+esphome:
+  on_boot: 
+    priority: -100
+    then:
+      - mqtt.publish: 
+          topic: state/${deviceName}/DEVICE/status
+          payload: "STARTING"
+          retain: true
+      - delay: 200ms
+      - mqtt.publish:
+          topic: state/${deviceName}/DEVICE/status
+          payload: "RUNNING"
+          retain: true
+
+wifi:
+  networks:
+    - ssid: !secret wifi_main_ssid
+      password: !secret wifi_main_passwd
+    - ssid: !secret wifi_aux_ssid
+      password: !secret wifi_aux_passwd
+
+  #use_address: irheaterplug.local
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "${deviceName} Fallback AP"
+    password: !secret fallbackPwd
+
+captive_portal:
+
+# Enable logging
+logger:
+  level: DEBUG
+  logs:
+    sensor: INFO
+    adc: INFO
+
+ota:
+
+mqtt: 
+  broker: ${mqttBroker}
+  username: ${mqttUser}
+  password: !secret mqttPwd
+  discovery: false
+
+switch:
+  - platform: restart
+    name: "${deviceName} Restart"
+    id: ${deviceName}_restart
+    on_turn_on:
+      then:
+        - mqtt.publish: 
+            topic: state/${deviceName}/DEVICE/status
+            payload: RESTART
+  
+sensor:
+    # Uptime sensor.
+  - platform: uptime
+    name: ${deviceName} Uptime
+    id: "${deviceName}_uptime"
+    unit_of_measurement: s
+    
+  # WiFi Signal sensor.
+  - platform: wifi_signal
+    name: ${deviceName} WiFi Signal
+    unit_of_measurement: dBm
+    update_interval: 60s
+    state_topic: tele/${deviceName}/SENSOR/wifi/strength
+    id: "${deviceName}_wifi_strength"

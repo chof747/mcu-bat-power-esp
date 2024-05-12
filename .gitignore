@@ -1,0 +1,19 @@
+# Gitignore settings for ESPHome
+# This is an example and may include too much for your use-case.
+# You can modify this file to suit your needs.
+/.esphome/
+**/.pioenvs/
+**/.piolibdeps/
+/devices/
+/.vscode/
+**/lib/
+**/src/
+**/platformio.ini
+**/secrets.yaml
+templates/secrets.yaml
+10.0.1.*
+handheld.yaml
+devicelist.txt
+esphome/pyvenv.cfg
+.venv/pyvenv.cfg
+*.code-workspace

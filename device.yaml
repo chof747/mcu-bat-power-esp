@@ -1,0 +1,10 @@
+
+substitutions:
+  deviceName: sampledevice
+  mqttBroker: !secret mqttBroker
+  mqttUser:  switch
+
+  label: "Sample Device"
+
+packages:
+  wemosd1mini: !include templates/wemosd1mini.yaml
